@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ứng dụng Nhắn tin Cao cấp</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Khung Đăng nhập / Đăng ký -->
+    <div id="auth-container">
+        <h2>Xin Chào</h2>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">Đăng nhập để kết nối cùng bạn bè</p>
+        <input type="text" id="auth-username" placeholder="Tên tài khoản">
+        <input type="password" id="auth-password" placeholder="Mật khẩu">
+        <button onclick="login()">Đăng nhập</button>
+        <button onclick="register()">Đăng ký tài khoản</button>
+    </div>
+
+    <!-- Khung Chat Chính -->
+    <div id="chat-container" class="hidden">
+        <div class="header">
+            <h3>💬 ChatApp - <span id="user-display" style="color: var(--primary-color);"></span></h3>
+            <button onclick="logout()">Đăng xuất</button>
+        </div>
+
+        <div class="main-layout">
+            <!-- Sidebar bên trái -->
+            <div class="sidebar">
+                <h4>Quản lý tài khoản</h4>
+                <input type="text" id="target-user-input" placeholder="Nhập tên người dùng...">
+                <div class="sidebar-btn-group">
+                    <button class="btn-secondary" onclick="addFriend()">Kết bạn</button>
+                    <button class="btn-danger" onclick="blockUser()">Chặn</button>
+                </div>
+                
+                <hr style="border: 0; border-top: 1px solid var(--border-color);">
+                
+                <h4>Phòng Chat & Tính năng</h4>
+                <div class="room-list">
+                    <button class="room-btn" onclick="switchRoom('AI_Chat')">🤖 Trò chuyện với AI</button>
+                    <button class="room-btn" onclick="joinPrivateChat()">👤 Chat Riêng Tư</button>
+                    <button class="room-btn" onclick="joinGroupChat()">👥 Tạo / Vào Nhóm</button>
+                </div>
+                
+                <p style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">
+                    Đang ở: <span id="current-room-display" style="font-weight: 600; color: black;">Chưa chọn</span>
+                </p>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color);">
+                
+                <h4>Cuộc gọi trực tuyến</h4>
+                <button class="room-btn" id="btn-video-call" onclick="startVideoCall()" style="background: #e7f3ff; color: var(--primary-color); border-color: #cce4ff; text-align: center;">📞 Bắt đầu gọi Video</button>
+                
+                <div id="video-area" class="hidden">
+                    <video id="local-video" autoplay muted></video>
+                    <video id="remote-video" autoplay></video>
+                </div>
+            </div>
+
+            <!-- Khung Chat chính bên phải -->
+            <div class="chat-area">
+                <div id="messages-box">
+                    <!-- Tin nhắn sẽ tự động hiển thị ở đây -->
+                </div>
+                
+                <div class="input-box">
+                    <input type="text" id="msg-input" placeholder="Nhập tin nhắn của bạn ở đây...">
+                    <button class="btn-send" onclick="sendMessage()">Gửi</button>
+                    <button class="btn-icon" onclick="triggerFileInput()">📁</button>
+                    <button class="btn-icon" id="voice-btn" onclick="toggleVoiceRecord()">🎤</button>
+                    <input type="file" id="file-input" class="hidden" onchange="sendFile(this)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script kết nối -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
